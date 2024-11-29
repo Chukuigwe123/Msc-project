@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict Density and Viscosity</title>
+</head>
+<body>
+    <h1>Prediction</h1>
+    <form id="predictForm" method="post">
+        {% csrf_token %}
+        <label>Depth:</label> <input type="text" name="Depth"><br>
+        <label>WOB:</label> <input type="text" name="WOB"><br>
+        <label>SURF_RPM:</label> <input type="text" name="SURF_RPM"><br>
+        <label>ROP_AVG:</label> <input type="text" name="ROP_AVG"><br>
+        <label>PHIF:</label> <input type="text" name="PHIF"><br>
+        <label>VSH:</label> <input type="text" name="VSH"><br>
+        <label>SW:</label> <input type="text" name="SW"><br>
+        <label>KLOGH:</label> <input type="text" name="KLOGH"><br>
+        <button type="button" onclick="makePrediction()">Predict</button>
+    </form>
+    <h3>Results:</h3>
+    <div id="results"></div>
+
+    <script>
+        function makePrediction() {
+            const form = document.getElementById('predictForm');
+            const formData = new FormData(form);
+
+            fetch('/api/predict/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('results').innerHTML = `
+                    Density: ${data.density}<br>
+                    Viscosity: ${data.viscosity}
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

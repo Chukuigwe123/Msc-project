@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluate Models</title>
+</head>
+<body>
+    <h1>Model Evaluation</h1>
+    <button onclick="getEvaluation()">Evaluate Models</button>
+    <h3>Results:</h3>
+    <div id="evaluationResults"></div>
+
+    <script>
+        function getEvaluation() {
+            fetch('/api/evaluate/')
+                .then(response => response.json())
+                .then(data => {
+                    let results = '';
+                    for (const [model, score] of Object.entries(data)) {
+                        results += `${model}: ${score}<br>`;
+                    }
+                    document.getElementById('evaluationResults').innerHTML = results;
+                });
+        }
+    </script>
+</body>
+</html>
