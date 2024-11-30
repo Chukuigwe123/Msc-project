@@ -1,2 +1,2 @@
 ﻿# Msc-project
-
+This project aims to develop and implement an automated system for predicting the density and viscosity of drilling fluids using linear regression and random forest models. Thus the integration of Python in machine learning in drilling will improve the fluid properties thus improve the efficiency, safety and reduce the cost in drilling. Employing the machine learning principles as well as the real-time data processing the project aims at combining the data analytics into decision-making loops in various drilling operations in order to support operational functionality and longevity of the oil and natural gas sector.
