@@ -8,8 +8,19 @@
     <div class="container mt-5">
         <h2>Prediction Results</h2>
         <div>
-            {{ results|safe }}  <!-- Renders the HTML table generated in the view -->
+            {{ results|safe }}  <!-- Display results table -->
         </div>
+
+        <h3>Correlation Heatmap</h3>
+        <div>
+            <img src="data:image/png;base64,{{ heatmap_image }}" alt="Correlation Heatmap" class="img-fluid">
+        </div>
+
+        <h3>Scatter Plot: Actual vs Predicted</h3>
+        <div>
+            <img src="data:image/png;base64,{{ scatter_image }}" alt="Scatter Plot" class="img-fluid">
+        </div>
+
         <a href="{% url 'upload' %}" class="btn btn-primary mt-3">Upload Another File</a>
     </div>
 </body>

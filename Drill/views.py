@@ -1,20 +1,24 @@
-import pandas as pd
-import joblib
+import io
+import base64
+import seaborn as sns
+import matplotlib.pyplot as plt
 from django.shortcuts import render
 from .forms import FileUploadForm
+import pandas as pd
+import joblib
+
+
 
 def upload(request):
-    
-
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
         if form.is_valid():
             # Get the uploaded file
             uploaded_file = request.FILES['file']
 
-            # Read the file content directly into a Pandas DataFrame
             try:
-                data = pd.read_excel(uploaded_file)  # Read the Excel file
+                # Read the file content into a Pandas DataFrame
+                data = pd.read_excel(uploaded_file)
                 
                 # Drop unnecessary columns (adjust based on your dataset)
                 X = data.drop(columns=['ROP_AVG'])  # Replace 'ROP_AVG' with actual target column name
@@ -40,14 +44,43 @@ def upload(request):
                     'RF_Viscosity': predictions_rf_viscosity
                 })
 
-                # Convert the DataFrame to HTML for display in the browser
+                # Generate Correlation Heatmap
+                plt.figure(figsize=(10, 6))
+                correlation_matrix = results.corr()
+                sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+                heatmap_buffer = io.BytesIO()
+                plt.savefig(heatmap_buffer, format='png')
+                heatmap_buffer.seek(0)
+                heatmap_base64 = base64.b64encode(heatmap_buffer.read()).decode('utf-8')
+                plt.close()
+
+                # Generate Scatter Plot (e.g., Actual vs. Predicted)
+                plt.figure(figsize=(8, 6))
+                plt.scatter(results['Actual'], results['LR_Density'], label='LR Density', alpha=0.6)
+                plt.scatter(results['Actual'], results['RF_Density'], label='RF Density', alpha=0.6)
+                plt.xlabel('Actual')
+                plt.ylabel('Predicted')
+                plt.title('Scatter Plot: Actual vs Predicted')
+                plt.legend()
+                scatter_buffer = io.BytesIO()
+                plt.savefig(scatter_buffer, format='png')
+                scatter_buffer.seek(0)
+                scatter_base64 = base64.b64encode(scatter_buffer.read()).decode('utf-8')
+                plt.close()
+
+                # Convert results to HTML for display
                 results_html = results.to_html(classes='table table-striped', index=False)
 
-                return render(request, 'results.html', {'results': results_html})
+                return render(request, 'results.html', {
+                    'results': results_html,
+                    'heatmap_image': heatmap_base64,
+                    'scatter_image': scatter_base64
+                })
+
             except Exception as e:
                 # Handle any errors (e.g., invalid Excel file format)
-                return render(request, 'upload.html', {'form': form, 'error': str(e)})
+                return render(request, 'index.html', {'form': form, 'error': str(e)})
     else:
         form = FileUploadForm()
 
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'index.html', {'form': form})

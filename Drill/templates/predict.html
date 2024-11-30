@@ -1,24 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predict Density and Viscosity</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Link your custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            margin: 2rem auto;
+            max-width: 600px;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #f1f1f1;
+            font-size: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f1f1f1;
+            color: #666;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Prediction</h1>
-    <form id="predictForm" method="post">
-        {% csrf_token %}
-        <label>Depth:</label> <input type="text" name="Depth"><br>
-        <label>WOB:</label> <input type="text" name="WOB"><br>
-        <label>SURF_RPM:</label> <input type="text" name="SURF_RPM"><br>
-        <label>ROP_AVG:</label> <input type="text" name="ROP_AVG"><br>
-        <label>PHIF:</label> <input type="text" name="PHIF"><br>
-        <label>VSH:</label> <input type="text" name="VSH"><br>
-        <label>SW:</label> <input type="text" name="SW"><br>
-        <label>KLOGH:</label> <input type="text" name="KLOGH"><br>
-        <button type="button" onclick="makePrediction()">Predict</button>
-    </form>
-    <h3>Results:</h3>
-    <div id="results"></div>
+    <header>
+        <h1>Predict Density and </h1>
+    </header>
+
+    <div class="container">
+        <form id="predictForm" method="post">
+            {% csrf_token %}
+            <label for="depth">Depth:</label>
+            <input type="text" name="Depth" id="depth">
+
+            <label for="wob">WOB:</label>
+            <input type="text" name="WOB" id="wob">
+
+            <label for="surf_rpm">SURF_RPM:</label>
+            <input type="text" name="SURF_RPM" id="surf_rpm">
+
+            <label for="rop_avg">ROP_AVG:</label>
+            <input type="text" name="ROP_AVG" id="rop_avg">
+
+            <label for="phif">PHIF:</label>
+            <input type="text" name="PHIF" id="phif">
+
+            <label for="vsh">VSH:</label>
+            <input type="text" name="VSH" id="vsh">
+
+            <label for="sw">SW:</label>
+            <input type="text" name="SW" id="sw">
+
+            <label for="klogh">KLOGH:</label>
+            <input type="text" name="KLOGH" id="klogh">
+
+            <button type="button" onclick="makePrediction()">Predict</button>
+        </form>
+
+        <div id="results"></div>
+    </div>
+
+    <footer>
+        &copy; 2024 PredictApp. All Rights Reserved.
+    </footer>
 
     <script>
         function makePrediction() {
@@ -35,8 +140,13 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('results').innerHTML = `
-                    Density: ${data.density}<br>
-                    Viscosity: ${data.viscosity}
+                    <strong>Density:</strong> ${data.density}<br>
+                    <strong>Viscosity:</strong> ${data.viscosity}
+                `;
+            })
+            .catch(error => {
+                document.getElementById('results').innerHTML = `
+                    <strong>Error:</strong> Could not process the prediction.
                 `;
             });
         }

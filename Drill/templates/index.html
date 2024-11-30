@@ -1,0 +1,147 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+    <head>
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+
+        <!--font-family-->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+		<link href="https://fonts.googleapis.com/css?family=Rufina:400,700" rel="stylesheet">
+        
+        
+        <title>Drill ML</title>
+
+        
+		<link rel="shortcut icon" type="image/icon" href="{% static 'logo/favicon.png' %}"/>
+       
+        
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+        
+		<link rel="stylesheet" href="{% static 'css/linearicons.css' %}">
+
+        
+		<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+
+		
+        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+
+        
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+		
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+		
+		
+		<link rel="stylesheet" href="{% static 'css/bootsnav.css' %}" >	
+        
+  
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        
+       
+
+    </head>
+	
+	<body>
+		
+	
+		
+		<section id="home" class="welcome-hero">
+
+			
+			<div class="top-area">
+				<div class="header-area">
+					<!-- Start Navigation -->
+				    <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+
+				        <div class="container">
+
+				          
+				            <div class="navbar-header">
+				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+				                    <i class="fa fa-bars"></i>
+				                </button>
+				                <a class="navbar-brand" href="index.html">Drill_ML<span></span></a>
+
+				            </div>
+				           
+
+				          
+				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+				                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+				                   
+				                    <li class="scroll"><a href="#contact">Upload</a></li>
+				                </ul><!--/.nav -->
+				            </div><!-- /.navbar-collapse -->
+				        </div><!--/.container-->
+				    </nav><!--/nav-->
+				    <!-- End Navigation -->
+				</div><!--/.header-area-->
+			    <div class="clearfix"></div>
+
+			</div><!-- /.top-area-->
+			<!-- top-area End -->
+
+			<div class="container">
+				<div class="welcome-hero-txt">
+					<h2>Upload. Analyze. Predict. Achieve.</h2>
+					<p>
+						From Files to Future: Predictive Analytics Made Easy!
+					</p>
+					<form method="POST" enctype="multipart/form-data">
+			            {% csrf_token %}
+			            <div class="form-group">
+			                {{ form.as_p }}
+			            </div>
+			            {% if error %}
+			                <div class="alert alert-danger">{{ error }}</div>
+			            {% endif %}
+			            <button type="submit" class="btn btn-upload bg-primary">Upload</button>
+			        </form>
+				</div>
+			</div>
+
+			
+		</section><!--/.welcome-hero-->
+		<!--welcome-hero end -->
+
+		
+		<section id="blog" class="blog"></section><!--/.blog-->
+		<!--blog end -->
+
+		
+
+
+		
+		<!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+		<script src="{% static 'js/jquery.js' %}"></script>
+        
+        <!--modernizr.min.js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+		
+		<!--bootstrap.min.js-->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+		
+		<!-- bootsnav js -->
+		<script src="{% static 'js/bootsnav.js' %}"></script>
+
+		<!--owl.carousel.js-->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+        <!--Custom JS-->
+        <script src="{% static 'js/custom.js' %}"></script>
+        
+    </body>
+	
+</html>
